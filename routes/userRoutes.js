@@ -8,7 +8,15 @@ const router = express.Router()
 router.get('/', (req,res) =>{
     res.status(200).json(
         {
-            "message": `aqui se va a mostrar el id ${req.params.id}`,
+            "message": `aqui se va a mostrar el id del usuario`,
+
+        }
+    )
+})
+router.get('/:id', (req,res) =>{
+    res.status(200).json(
+        {
+            "message": `aqui se va a mostrar el id del usuario ${req.params.id}`,
 
         }
     )
@@ -16,17 +24,17 @@ router.get('/', (req,res) =>{
 //agregar datos con post
 router.post('/', (re, res)=>{
     res.status(201).json({
-        "message": "aquise va a crear bootcamp"
+        "message": "aquise va a crear usuario"
     })
 
 })
 
-// add put
+// add put actualizar usuario
 
 router.put('/', (req,res) =>{
     res.status(200).json(
         {
-            "message": `aqui se va a actualizar el id ${req.params.id}`,
+            "message": `aqui se va a actualizar el id del usuario ${req.params.id}`,
 
         }
     )
@@ -36,7 +44,7 @@ router.put('/', (req,res) =>{
 router.delete('/', (req,res) =>{
     res.status(200).json(
         {
-            "message": `aqui se va a borrar este bootcamps ${req.params.id}`,
+            "message": `aqui se va a borrar este usuario ${req.params.id}`,
 
         }
     )
