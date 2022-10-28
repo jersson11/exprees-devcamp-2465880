@@ -2,7 +2,7 @@ const { HostNotFoundError } = require('sequelize')
 const Sequileze = require('sequelize')
 //objeto de conexion :
 const sequileze = new Sequileze(
-    'devscamps-2465880',
+    'deevscamps-2465880',
     'root',
     '',
 {
