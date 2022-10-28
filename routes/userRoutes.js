@@ -10,7 +10,7 @@ router.route('/')
     router.route('/:id')
 
     .get(traerUserPorId)
-    .post(actualizarUser)
+    .put(actualizarUser)
     .delete(deleteUser)
 
 module.exports = router
