@@ -4,6 +4,7 @@ const sequelize = require ('../config/seq')
 const {DataTypes} = require('sequelize')
 //el modelo
 const UserModel = require ('../models/user')
+const user = require('../models/user')
 // crear el objeto usuario
 const User = UserModel (sequelize,DataTypes)
 
@@ -53,11 +54,20 @@ exports.actualizarUser = async(req,res) =>{
 }
 
 ///delete
-exports.deleteUser = (req,res) =>{
+exports.deleteUser =async (req,res) =>{
+    //buscar el usuario por id
+    const u= await User.findByPk(req.params.id)
+    
+    //borrar usuario por id
+await User.destroy({
+    where: {
+      id: req.params.id
+    }
+  });
     res.status(200).json(
         {
-            "message": `aqui se va a borrar este usuario ${req.params.id}`,
-
+          "succes": true,
+          "data":u
         }
     )
 }
