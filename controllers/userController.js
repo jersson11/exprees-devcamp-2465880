@@ -1,7 +1,7 @@
 //objeto de conexion
 const sequelize = require ('../config/seq')
 //DataTypes
-const {DataTypes} = require('sequelize')
+const {DataTypes, ValidationError } = require('sequelize')
 //el modelo
 const UserModel = require ('../models/user')
 const user = require('../models/user')
@@ -21,14 +21,34 @@ exports.traerUserPorId=async (req,res)=>{
 }
 
 
-//agregar datos con post
+//agregar usuario datos con post
 exports.crearUser = async(req, res)=>{
-    const newUser = await User.create(req.body);
+    try{
+        const newUser = await User.create(req.body);
 
     res.status(201).json({
         "succes" :true,
         "data": newUser
     })
+
+    }
+    
+    catch(error){
+        //llevar errores a response  
+        const errores= error.errors.map((e)=>e.message)
+        res
+        .status(422)
+        .json({
+            "succes":false,
+            "errors": errores
+        })
+    }else{
+        
+    }
+        console.log(error.errors[0].message )
+
+    }
+    
 
 }
 
