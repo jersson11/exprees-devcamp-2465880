@@ -3,32 +3,32 @@ const sequelize = require ('../config/seq')
 //DataTypes
 const {DataTypes, ValidationError } = require('sequelize')
 //el modelo
-const UserModel = require ('../models/user')
-const user = require('../models/user')
+const reviewsModel = require ('../models/reviews')
+const reviews = require('../models/reviews')
 // crear el objeto usuario
-const User = UserModel (sequelize,DataTypes)
+const reviews = reviewsModel (sequelize,DataTypes)
 
 //rutas get
 
-exports.traerUserPorId=async (req,res)=>{
-    const userId = await user.findBykpk(req.params.id)
+exports.traerreviewsPorId=async (req,res)=>{
+    const reviewsId = await reviews.findBykpk(req.params.id)
     res.status(200).json(
         {
             "succes": true,
-            "data": userId
+            "data": reviewsId
         }
     )
 }
 
 
 //agregar usuario  con post
-exports.crearUser = async(req, res)=>{
+exports.crearreviews = async(req, res)=>{
     try{
-        const newUser = await User.create(req.body);
+        const newreviews = await reviews.create(req.body);
 
     res.status(201).json({
         "succes" :true,
-        "data": newUser
+        "data": newreviews
     })
 
     }
@@ -52,11 +52,11 @@ exports.crearUser = async(req, res)=>{
 
 
 //PUT - PATCH: actualizar
-exports.actualizarUser = async(req , res)=>{
+exports.actualizarreviews = async(req , res)=>{
     try {
         //consultar datos actualizados
-      const upUser = await User.findByPk(req.params.id)
-      if(!upUser){
+      const upreviews = await reviews.findByPk(req.params.id)
+      if(!upreviews){
         //response de usuario no encontrado
         res.status(422).json(
             {
@@ -68,18 +68,18 @@ exports.actualizarUser = async(req , res)=>{
            )   
        }else{
             //actualizar usuario por id
-            await User.update(req.body, {
+            await reviews.update(req.body, {
                 where: {
                 id: req.params.id
                 }
             });
             //seleccionar usuario actualizado
               //consultar datos actualizados
-            const userAct = await User.findByPk(req.params.id)
+            const reviewsAct = await reviews.findByPk(req.params.id)
             //enviar response con usuario actualizado
             res.status(200).json({
                 "success" : true,
-                "data" :  userAct
+                "data" :  reviewsAct
             })
        }
     } catch (error) {
@@ -93,12 +93,12 @@ exports.actualizarUser = async(req , res)=>{
  }
 
 ///delete
-exports.deleteUser =async (req,res) =>{
+exports.deletereviews =async (req,res) =>{
     //buscar el usuario por id
-    const u= await User.findByPk(req.params.id)
+    const u= await reviews.findByPk(req.params.id)
     
     //borrar usuario por id
-await User.destroy({
+await reviews.destroy({
     where: {
       id: req.params.id
     }
