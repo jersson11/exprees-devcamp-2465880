@@ -11,7 +11,7 @@ const User = UserModel (sequelize,DataTypes)
 //rutas get
 
 exports.traerUserPorId=async (req,res)=>{
-    const userId = await user.findBykpk(req.params.id)
+    const userId = await User.findBykpk(req.params.id)
     res.status(200).json(
         {
             "succes": true,
@@ -42,9 +42,9 @@ exports.crearUser = async(req, res)=>{
             "succes":false,
             "errors": errores
         })
+        console.log(error.errors[0].message )
     }
       
-        console.log(error.errors[0].message )
     
         
 
@@ -95,7 +95,7 @@ exports.actualizarUser = async(req , res)=>{
 ///delete
 exports.deleteUser =async (req,res) =>{
     //buscar el usuario por id
-    const u= await User.findByPk(req.params.id)
+    const u= await User.findBykpk(req.params.id)
     
     //borrar usuario por id
 await User.destroy({
