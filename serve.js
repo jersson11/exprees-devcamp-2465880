@@ -8,6 +8,8 @@ const lisendpoints = require ('express-list-endpoints')
 //dependencias a las rutas
 const bootcampRoutes = require('./routes/bootcampsRoutes')
 const userRoutes = require('./routes/userRoutes')
+const coursesRoutes = require('./routes/coursesRoutes')
+const reviewsRoutes = require('./routes/reviewsRoutes')
 
 //establecer el arcivo de configuracion 
 // con variables de entorno 
@@ -23,6 +25,8 @@ app.use(express.json())
 
 app.use('/api/v1/bootcamps',bootcampRoutes)
 app.use('/api/v1/users',userRoutes)
+app.use('/api/v1/courses',coursesRoutes)
+app.use('/api/v1/reviews',reviewsRoutes)
 
 console.log(lisendpoints(app))
 //3 ejecutar el servidor de desarrolo de express

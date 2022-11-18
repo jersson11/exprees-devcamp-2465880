@@ -6,12 +6,33 @@ const {DataTypes, ValidationError } = require('sequelize')
 const reviewsModel = require ('../models/reviews')
 const reviews = require('../models/reviews')
 // crear el objeto usuario
-const reviews = reviewsModel (sequelize,DataTypes)
+const Reviews = reviewsModel (sequelize,DataTypes)
 
 //rutas get
 
-exports.traerreviewsPorId=async (req,res)=>{
-    const reviewsId = await reviews.findBykpk(req.params.id)
+//tarer datos
+//1. traer todos los datos
+exports.traerReviews= async(req, res)=>{
+    try {
+        const reviews = await Reviews.findAll();
+        res.status(200).json({
+            "success": true,
+            "data": reviews
+        })   
+    } catch (error) {
+        res.status(500)
+        .json({
+            "success": false,
+            "errors": "Falla en el servidor"
+        })
+    }
+ 
+}
+
+
+//traer datos por id
+exports.traerReviewsPorId=async (req,res)=>{
+    const reviewsId = await Reviews.findByPk(req.params.id)
     res.status(200).json(
         {
             "succes": true,
@@ -22,9 +43,9 @@ exports.traerreviewsPorId=async (req,res)=>{
 
 
 //agregar usuario  con post
-exports.crearreviews = async(req, res)=>{
+exports.crearReviews = async(req, res)=>{
     try{
-        const newreviews = await reviews.create(req.body);
+        const newreviews = await Reviews.create(req.body);
 
     res.status(201).json({
         "succes" :true,
@@ -52,10 +73,10 @@ exports.crearreviews = async(req, res)=>{
 
 
 //PUT - PATCH: actualizar
-exports.actualizarreviews = async(req , res)=>{
+exports.actualizarReviews = async(req , res)=>{
     try {
         //consultar datos actualizados
-      const upreviews = await reviews.findByPk(req.params.id)
+      const upeviews = await Reviews.findByPk(req.params.id)
       if(!upreviews){
         //response de usuario no encontrado
         res.status(422).json(
@@ -68,14 +89,14 @@ exports.actualizarreviews = async(req , res)=>{
            )   
        }else{
             //actualizar usuario por id
-            await reviews.update(req.body, {
+            await Reviews.update(req.body, {
                 where: {
                 id: req.params.id
                 }
             });
             //seleccionar usuario actualizado
               //consultar datos actualizados
-            const reviewsAct = await reviews.findByPk(req.params.id)
+            const reviewsAct = await Reviews.findByPk(req.params.id)
             //enviar response con usuario actualizado
             res.status(200).json({
                 "success" : true,
@@ -93,12 +114,12 @@ exports.actualizarreviews = async(req , res)=>{
  }
 
 ///delete
-exports.deletereviews =async (req,res) =>{
+exports.deleteReviews =async (req,res) =>{
     //buscar el usuario por id
-    const u= await reviews.findByPk(req.params.id)
+    const u= await Reviews.findByPk(req.params.id)
     
     //borrar usuario por id
-await reviews.destroy({
+await Reviews.destroy({
     where: {
       id: req.params.id
     }

@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class courses extends Model {
+  class Courses extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,15 +13,68 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  courses.init({
-    title: DataTypes.STRING,
-    descripcion: DataTypes.STRING,
-    weeks: DataTypes.INTEGER,
-    enrrol: DataTypes.INTEGER,
-    minimun_skill: DataTypes.INTEGER
-  }, {
+  Courses.init({
+    title:{
+      type:DataTypes.STRING,
+      allowNull:false,
+      unique: true,
+      validate:{
+        isAlpha: {
+          args: true,
+          msg: 'el titulo debe tener solo letras'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'el campo esta raro'
+        },
+        notNull:{
+          args: true,
+           msg: 'el campo no puede estar vacio'
+        },
+      }
+    },
+    descripcion: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      unique: true,
+      validate:{
+        isAlpha: {
+          args: true,
+          msg: 'la descripcion solo debe tener letras'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'el campo esta raro'
+        },
+        notNull:{
+          args: true,
+           msg: 'el campo no puede estar vacio'
+        },
+      }
+    },
+    weeks:{
+      allowNull:false,
+      type:DataTypes.INTEGER,
+        max:55, 
+        min:3
+  
+    },
+    enrrol:{
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      max: 5
+    },
+    minimun_skill:{
+      allowNull:false,
+      type:DataTypes.INTEGER,
+    },
+  },
+  
+  {
     sequelize,
     modelName: 'courses',
+    timestamps:false
+
   });
-  return courses;
+  return Courses;
 };

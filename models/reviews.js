@@ -14,9 +14,49 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   reviews.init({
-    title: DataTypes.STRING,
-    text: DataTypes.STRING,
-    rating: DataTypes.FLOAT
+    title: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      unique: true,
+      validate:{
+        isAlpha: {
+          args: true,
+          msg: 'el titulo debe tener solo letras'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'el campo esta raro'
+        },
+        notNull:{
+          args: true,
+           msg: 'el campo no puede estar vacio'
+        },
+      }
+    },
+    text:{
+      type:DataTypes.STRING,
+      allowNull:false,
+      unique: true,
+      validate:{
+        isAlpha: {
+          args: true,
+          msg: 'el texto debe tener solo letras'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'el campo esta raro'
+        },
+        notNull:{
+          args: true,
+           msg: 'el campo no puede estar vacio'
+        },
+      }
+    },
+    rating:{
+      allowNull:false,
+      type:DataTypes.FLOAT,
+      
+    },
   }, {
     sequelize,
     modelName: 'reviews',

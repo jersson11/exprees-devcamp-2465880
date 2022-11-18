@@ -6,12 +6,35 @@ const {DataTypes, ValidationError } = require('sequelize')
 const coursesModel = require ('../models/courses')
 const courses = require('../models/courses')
 // crear el objeto usuario
-const courses = coursesModel (sequelize,DataTypes)
+const Courses = coursesModel (sequelize,DataTypes)
 
 //rutas get
 
-exports.traercoursesPorId=async (req,res)=>{
-    const coursesId = await courses.findBykpk(req.params.id)
+
+
+
+//1. traer todos los datos
+exports.traerCourses= async(req, res)=>{
+    try {
+        const courses = await Courses.findAll();
+        res.status(200).json({
+            "success": true,
+            "data": courses
+        })   
+    } catch (error) {
+        res.status(500)
+        .json({
+            "success": false,
+            "errors": "Falla en el servidor"
+        })
+    }
+ 
+}
+
+
+
+exports.traerCoursesPorId=async (req,res)=>{
+    const coursesId = await Courses.findByPk(req.params.id)
     res.status(200).json(
         {
             "succes": true,
@@ -21,10 +44,11 @@ exports.traercoursesPorId=async (req,res)=>{
 }
 
 
+
 //agregar usuario  con post
-exports.crearcourses = async(req, res)=>{
+exports.crearCourses = async(req, res)=>{
     try{
-        const newcourses = await courses.create(req.body);
+        const newcourses = await Courses.create(req.body);
 
     res.status(201).json({
         "succes" :true,
@@ -42,9 +66,9 @@ exports.crearcourses = async(req, res)=>{
             "succes":false,
             "errors": errores
         })
+        console.log(error.errors[0].message )
     }
       
-        console.log(error.errors[0].message )
     
         
 
@@ -52,10 +76,10 @@ exports.crearcourses = async(req, res)=>{
 
 
 //PUT - PATCH: actualizar
-exports.actualizarcourses = async(req , res)=>{
+exports.actualizarCourses = async(req , res)=>{
     try {
         //consultar datos actualizados
-      const upcourses = await courses.findByPk(req.params.id)
+      const upcourses = await Courses.findByPk(req.params.id)
       if(!upcourses){
         //response de usuario no encontrado
         res.status(422).json(
@@ -68,14 +92,14 @@ exports.actualizarcourses = async(req , res)=>{
            )   
        }else{
             //actualizar usuario por id
-            await courses.update(req.body, {
+            await Courses.update(req.body, {
                 where: {
                 id: req.params.id
                 }
             });
             //seleccionar usuario actualizado
               //consultar datos actualizados
-            const coursesAct = await courses.findByPk(req.params.id)
+            const coursesAct = await Courses.findByPk(req.params.id)
             //enviar response con usuario actualizado
             res.status(200).json({
                 "success" : true,
@@ -93,12 +117,12 @@ exports.actualizarcourses = async(req , res)=>{
  }
 
 ///delete
-exports.deletecourses =async (req,res) =>{
+exports.deleteCourses =async (req,res) =>{
     //buscar el usuario por id
-    const u= await courses.findByPk(req.params.id)
+    const u= await Courses.findByPk(req.params.id)
     
     //borrar usuario por id
-await courses.destroy({
+await Courses.destroy({
     where: {
       id: req.params.id
     }
